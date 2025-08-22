@@ -5,16 +5,18 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+
     public int enemyDefeated;
 
     public bool hasaGun;
-
     public bool hasRifle;
 
-    public bool isRifleinHand;
-    public bool isGuninHand;
 
-    public int balas;
+    public int balasGun;
+    public int balasRifle;
+
+    public int ammoInStockGun;
+    public int ammoInStockRifle;
 
     [Header("Posicion Player")]
     public float posX;
@@ -39,6 +41,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+
     public void GuardarDatos()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -47,6 +51,13 @@ public class GameManager : MonoBehaviour
         posZ = player.position.z;
     }
 
+    public void ReiniciarDatos()
+    {
+        hasaGun = false;
+        hasRifle = false;
+
+        enemyDefeated = 0;
+    }
 
     public void ChangeScene(string nombreEscena)
     {

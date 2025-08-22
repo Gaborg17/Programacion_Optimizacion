@@ -8,7 +8,15 @@ public class PerfilJugador
     public float posY;
     public float posZ;
 
-    public int balas;
+    public bool hasaGun;
+    public bool hasRifle;
+
+
+    public int balasGun;
+    public int balasRifle;
+
+    public int ammoInStockGun;
+    public int ammoInStockRifle;
 
     public PerfilJugador()
     {
@@ -16,7 +24,11 @@ public class PerfilJugador
         posY = GameManager.Instance.posY;
         posZ = GameManager.Instance.posZ;
 
-        balas = GameManager.Instance.balas;
+        hasaGun = GameManager.Instance.hasaGun;
+        hasRifle = GameManager.Instance.hasRifle;
+
+        balasGun = GameManager.Instance.balasGun;
+        balasRifle = GameManager.Instance.balasRifle;
     }
 
 }

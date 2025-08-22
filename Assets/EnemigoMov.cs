@@ -56,6 +56,7 @@ public class EnemigoMov : MonoBehaviour
         {
             AudioManager.Instance.Play("Muerte");
             GameManager.Instance.enemyDefeated = 0;
+            GameManager.Instance.ReiniciarDatos();
             GameManager.Instance.ChangeScene("ProyectoGameEngine");
             Debug.Log("Paaaa");
         }
