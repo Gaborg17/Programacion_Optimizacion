@@ -20,15 +20,21 @@ public class PerfilJugador
 
     public PerfilJugador()
     {
-        posX = GameManager.Instance.posX;
-        posY = GameManager.Instance.posY;
-        posZ = GameManager.Instance.posZ;
+        if (GameManager.Instance != null)
+        {
+            posX = GameManager.Instance.posX;
+            posY = GameManager.Instance.posY;
+            posZ = GameManager.Instance.posZ;
 
-        hasaGun = GameManager.Instance.hasaGun;
-        hasRifle = GameManager.Instance.hasRifle;
+            hasaGun = GameManager.Instance.hasaGun;
+            hasRifle = GameManager.Instance.hasRifle;
 
-        balasGun = GameManager.Instance.balasGun;
-        balasRifle = GameManager.Instance.balasRifle;
+            balasGun = GameManager.Instance.balasGun;
+            balasRifle = GameManager.Instance.balasRifle;
+
+            ammoInStockGun = GameManager.Instance.ammoInStockGun;
+            ammoInStockRifle = GameManager.Instance.ammoInStockRifle;
+        }
     }
 
 }

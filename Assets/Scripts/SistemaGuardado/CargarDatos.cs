@@ -11,22 +11,30 @@ public class CargarDatos : MonoBehaviour
 
         perfil = SaveSystem.CargarPartida();
 
-        if (perfil == null)
+        if (perfil != null)
         {
             GameManager.Instance.posX = perfil.posX;
             GameManager.Instance.posY = perfil.posY;
             GameManager.Instance.posZ = perfil.posZ;
+
+            GameManager.Instance.hasaGun = perfil.hasaGun;
+            GameManager.Instance.hasRifle = perfil.hasRifle;
+
+            GameManager.Instance.balasGun = perfil.balasGun;
+            GameManager.Instance.balasRifle = perfil.balasRifle;
+
+            GameManager.Instance.ammoInStockGun = perfil.ammoInStockGun;
+            GameManager.Instance.ammoInStockRifle = perfil.ammoInStockRifle;
+            SceneManager.LoadScene("ProyectoGameEngine");
+            GameManager.Instance.StartCoroutine(GameManager.Instance.Mover());
+            Debug.Log("Cargo");
+
         }
         else
         {
-            SceneManager.LoadScene("");
+            SceneManager.LoadScene("ProyectoGameEngine");
         }
 
-        //player = GameObject.FindGameObjectWithTag("Player");
-        //ctrl = player.GetComponent<CharacterController>();
-        //ctrl.enabled = false;
-        //player.transform.position = new Vector3(GameManager.Instance.transform);
-        //ctrl.enabled = true;
     }
 
 }

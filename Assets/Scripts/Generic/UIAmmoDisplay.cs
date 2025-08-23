@@ -16,6 +16,11 @@ public class UIAmmoDisplay : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance.hasaGun || GameManager.Instance.hasRifle)
+        {
+            ammoDisplay.gameObject.SetActive(true);
+        }
+
         actualAmmo = wHandler.weaponInHand.actualAmmo;
         stockAmmo = wHandler.weaponInHand.ammoInStock;
 
