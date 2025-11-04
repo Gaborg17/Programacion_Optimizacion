@@ -5,7 +5,7 @@ public class Raycasts : MonoBehaviour
     [SerializeField]
     private float rango;
 
-    private Transform shootPoint;
+    public Transform shootPoint;
     private RaycastHit hit;
 
     [SerializeField]
@@ -19,7 +19,7 @@ public class Raycasts : MonoBehaviour
 
     private void Awake()
     {
-        shootPoint = transform.parent;
+        shootPoint = transform;
     }
 
     private void Start()
@@ -31,9 +31,10 @@ public class Raycasts : MonoBehaviour
     void Update()
     {
 
-        rango = wHandler.weaponInHand.range;
-        if (wHandler.ShotType == wHandler.OneShot && wHandler.weaponInHand.canShoot && wHandler.weaponInHand.actualAmmo > 0)
+        if (wHandler.ShotType == wHandler.OneShot && wHandler.weaponInHand.actualAmmo > 0)
         {
+            Debug.Log("Debe funcionar");
+            
             if (Input.GetMouseButtonDown(0))
             {
                 RayShot();
@@ -46,29 +47,33 @@ public class Raycasts : MonoBehaviour
                 RayShot();
             }
         }
+        
+
 
 
     }
 
     private void RayShot()
     {
-        RaycastHit hit;
 
         Physics.Raycast(shootPoint.position, shootPoint.forward, out hit, wHandler.weaponInHand.range, enemyMask);
+
+
         if (hit.transform != null)
         {
-
+            Debug.Log(hit.transform.gameObject.name);
             if (hit.transform.CompareTag("Enemy"))
             {
-                AudioManager.Instance.Play("ImpactoDisparo");
-                Destroy(hit.transform.gameObject);
                 GameManager.Instance.enemyDefeated++;
+
+                Spawn spawn = FindAnyObjectByType<Spawn>();
+                spawn.BackToQueue(hit.transform.gameObject);
             }
         }
     }
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.green;
-        Gizmos.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * rango);
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(shootPoint.position, shootPoint.forward * wHandler.weaponInHand.range);
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,6 +9,7 @@ public class GameManager : MonoBehaviour
 
 
     public int enemyDefeated;
+    public int totalEnemiesToDefeat;
 
     public bool hasaGun;
     public bool hasRifle;
@@ -29,7 +31,9 @@ public class GameManager : MonoBehaviour
 
     public string nombreGuardado;
 
-
+    public TextMeshProUGUI enemyCounter;
+    public TextMeshProUGUI win;
+    
 
     private void Awake()
     {
@@ -43,8 +47,6 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-
-
 
 
     public void GuardarDatos()
@@ -101,7 +103,6 @@ public class GameManager : MonoBehaviour
         wHandler.weapons[0].ammoInStock = ammoInStockGun;
         wHandler.weapons[1].ammoInStock = ammoInStockRifle;
     }
-
 
 
 }

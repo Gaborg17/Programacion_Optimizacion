@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -16,8 +17,7 @@ public class EnemigoMov : MonoBehaviour
     [SerializeField]
     private LayerMask mask;
 
-    [SerializeField]
-    private Transform[] posMov;
+
 
     public int coord = 0;
 
@@ -31,33 +31,23 @@ public class EnemigoMov : MonoBehaviour
     private void Update()
     {
         detect = Physics.CheckSphere(transform.position, radius, mask);
-        if (Vector3.Distance(transform.position, posMov[coord].position) < .4f)
-        {
-
-            coord++;
-            if (coord >= posMov.Length)
-            {
-                coord = 0;
-            }
-        }
         if (detect)
         {
             agent.SetDestination(player.position);
         }
         else
         {
-            agent.SetDestination(posMov[coord].position);
+            agent.SetDestination(iniPos);
         }
+
     }
 
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.transform.CompareTag("Player"))
         {
-            AudioManager.Instance.Play("Muerte");
             GameManager.Instance.enemyDefeated = 0;
-            GameManager.Instance.ReiniciarDatos();
-            GameManager.Instance.ChangeScene("ProyectoGameEngine");
+            GameManager.Instance.ChangeScene("PrograOpt");
             Debug.Log("Paaaa");
         }
     }

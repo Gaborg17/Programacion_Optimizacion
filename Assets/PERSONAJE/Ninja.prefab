@@ -14,9 +14,11 @@ GameObject:
   - component: {fileID: 8876549034749195228}
   - component: {fileID: 8607494179039391218}
   - component: {fileID: 8573288540656073873}
-  m_Layer: 0
+  - component: {fileID: 5794311557933817205}
+  - component: {fileID: 9198042521734039987}
+  m_Layer: 8
   m_Name: Ninja
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,7 +31,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3454328144626633909}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.00000003774895, y: 0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.383, y: 1.637, z: -0.097}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
@@ -104,14 +106,14 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 1.08
   m_Height: 1.9966199
   m_Direction: 1
-  m_Center: {x: -0.000019013882, y: -0.0025700033, z: 0.002813518}
+  m_Center: {x: -0.000019013882, y: 0.29, z: 0.08}
 --- !u!54 &8607494179039391218
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -135,9 +137,9 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!195 &8573288540656073873
 NavMeshAgent:
@@ -148,8 +150,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 3454328144626633909}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
+  m_Radius: 0.95
+  m_Speed: 0.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -161,3 +163,43 @@ NavMeshAgent:
   m_BaseOffset: 0.99573994
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &5794311557933817205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3454328144626633909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52e6800d104fe814bbadbe2749a82c64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 3
+  mask:
+    serializedVersion: 2
+    m_Bits: 8
+  coord: 0
+--- !u!136 &9198042521734039987
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3454328144626633909}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.83
+  m_Height: 1.9966199
+  m_Direction: 1
+  m_Center: {x: -0.000019013882, y: 0.12, z: 0.15}

@@ -37,24 +37,33 @@ public class Spawn : MonoBehaviour
 
     private IEnumerator Spawns()
     {
-        for (int i = activeObjects; activeObjects < maxObjectsInScene; i++)
+        while (true)
         {
             yield return new WaitForSeconds(spawnRate);
-            GameObject objeto = pool.Dequeue();
-            objeto.transform.position = GetRandomPos().position;
-            objeto.SetActive(true);
-            activeObjects++;
-            StartCoroutine(BackToQueue(objeto));
+
+            if (activeObjects < maxObjectsInScene && pool.Count > 0)
+            {
+                GameObject objeto = pool.Dequeue();
+                objeto.transform.position = GetRandomPos().position;
+                objeto.SetActive(true);
+                activeObjects++;
+            }
         }
     }
 
-    private IEnumerator BackToQueue(GameObject obj)
+    public void BackToQueue(GameObject obj)
     {
-        yield return new WaitForSeconds(.25f);
         obj.SetActive(false);
         pool.Enqueue(obj);
         activeObjects--;
     }
+    //private IEnumerator BackToQueue(GameObject obj)
+    //{
+    //    yield return new WaitForSeconds(2f);
+    //    obj.SetActive(false);
+    //    pool.Enqueue(obj);
+    //    activeObjects--;
+    //}
 
 
     private Transform GetRandomPos()

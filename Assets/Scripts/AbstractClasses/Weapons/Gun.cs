@@ -10,7 +10,6 @@ public class Gun : Weapons
             actualAmmo--;
             canShoot = false;
             StartCoroutine(CoolDown());
-            AudioManager.Instance.Play("DisparoGun");
 
         }
 
