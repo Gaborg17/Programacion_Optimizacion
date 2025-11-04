@@ -13,9 +13,12 @@ public class WeatherHandler : MonoBehaviour
 
     private string apiKey = "ad91d177b783b43d511588f36f6621df";
     private string url;
+
+    private string jsonRAW;
+
     private void Start()
     {
-        url = $"https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude=hourly,daily&appid={apiKey}&units=metric";
+        url = $"https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude=minutely,hourly,daily&appid={apiKey}&units=metric";
 
         StartCoroutine(UpdateWeather());
     }
@@ -34,10 +37,21 @@ public class WeatherHandler : MonoBehaviour
         }
         else
         {
-            
+            jsonRAW = request.downloadHandler.text;
+            Debug.Log(jsonRAW);
+
+            ReadJson();
         }
 
 
 
+    }
+    private void ReadJson()
+    {
+        var weatherJson = JSON.Parse(jsonRAW);
+
+        wData.timezone = weatherJson["timezone"].Value;
+        wData.temp = float.Parse(weatherJson["current"]["temp"].Value);
+        wData.weatherDescription = weatherJson["current"]["weather"][0]["description"].Value;
     }
 }
