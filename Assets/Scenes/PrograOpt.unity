@@ -759,12 +759,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c63c671e127061541919ae658466b1ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lat: 0
-  lon: 0
+  lat: 64.9
+  lon: 19.02
   wData:
     timezone: 
     temp: 0
     weatherDescription: 
+  weatherEffect: {fileID: 940177085}
+  lerped: {r: 0, g: 0, b: 0, a: 0}
 --- !u!4 &478217141
 Transform:
   m_ObjectHideFlags: 0
@@ -1533,6 +1535,7 @@ GameObject:
   m_Component:
   - component: {fileID: 940177084}
   - component: {fileID: 940177083}
+  - component: {fileID: 940177085}
   m_Layer: 11
   m_Name: Global Volume
   m_TagString: Untagged
@@ -1572,6 +1575,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &940177085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940177082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36e177a03534b4349bdbd27bdbefb31d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorAdjustments: {fileID: 0}
 --- !u!1 &961739749
 GameObject:
   m_ObjectHideFlags: 0

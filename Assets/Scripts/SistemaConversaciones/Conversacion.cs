@@ -37,7 +37,7 @@ public class Conversacion : MonoBehaviour
 
     void MostrarDialogo()
     {
-        ModificarPostProcess();
+        //ModificarPostProcess();
         panelDialogo.SetActive(true);
         textoDialogo.text = frases[lineaActual];
         AudioManager.Instance.Play("Dialogo");
@@ -45,7 +45,7 @@ public class Conversacion : MonoBehaviour
 
     void TerminarDialogo()
     {
-        ReiniciarPostProcess();
+        //ReiniciarPostProcess();
         AudioManager.Instance.Stop("Dialogo");
         panelDialogo.SetActive(false);
         lineaActual = 0;
@@ -57,17 +57,17 @@ public class Conversacion : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, rango);
     }
 
-    public void ModificarPostProcess()
-    {
-        PostProcessEffects effects = FindAnyObjectByType<PostProcessEffects>();
-        effects.vignette.intensity.value = .3f;
-        effects.grain.intensity.value = 1;
-    }
+    //public void ModificarPostProcess()
+    //{
+    //    PostProcessEffects effects = FindAnyObjectByType<PostProcessEffects>();
+    //    effects.vignette.intensity.value = .3f;
+    //    effects.grain.intensity.value = 1;
+    //}
 
-    public void ReiniciarPostProcess()
-    {
-        PostProcessEffects effects = FindAnyObjectByType<PostProcessEffects>();
-        effects.vignette.intensity.value = 0;
-        effects.grain.intensity.value = 0;
-    }
+    //public void ReiniciarPostProcess()
+    //{
+    //    PostProcessEffects effects = FindAnyObjectByType<PostProcessEffects>();
+    //    effects.vignette.intensity.value = 0;
+    //    effects.grain.intensity.value = 0;
+    //}
 }
