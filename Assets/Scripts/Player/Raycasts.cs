@@ -33,7 +33,6 @@ public class Raycasts : MonoBehaviour
 
         if (wHandler.ShotType == wHandler.OneShot && wHandler.weaponInHand.actualAmmo > 0)
         {
-            Debug.Log("Debe funcionar");
             
             if (Input.GetMouseButtonDown(0))
             {
