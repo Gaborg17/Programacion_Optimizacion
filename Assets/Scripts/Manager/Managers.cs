@@ -2,6 +2,9 @@ using PlayFab;
 using PlayFab.ClientModels;
 using TMPro;
 using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class Managers : MonoBehaviour
 //PlayFab Manager
@@ -16,6 +19,14 @@ public class Managers : MonoBehaviour
     [SerializeField] private TMP_InputField Ca_Password;
     [SerializeField] private TMP_InputField Ca_ConfirmedPassword;
     [SerializeField] private TMP_InputField Ca_AvatarUrl;
+    [SerializeField] private UnityEvent onCreateAccountSuccess;
+
+    [Header("UI")]
+    [SerializeField] private Image ppf;
+    [SerializeField] private TMP_Text playerDisplayName;
+    [SerializeField] private TMP_Text highScore;
+
+    private string userPlayFabId;
 
     void Start()
     {
@@ -47,7 +58,7 @@ public class Managers : MonoBehaviour
                 Username = Ca_Username.text.ToLower(),
                 DisplayName = Ca_Username.text,
                 Password = Ca_Password.text,
-
+                RequireBothUsernameAndEmail = true
             };
 
             PlayFabClientAPI.RegisterPlayFabUser(request, OnCreateAccountSuccess, OnCreateAccountError);
@@ -57,15 +68,52 @@ public class Managers : MonoBehaviour
        
     }
 
+    
+
     public void OnCreateAccountSuccess(RegisterPlayFabUserResult result)
     {
         Debug.Log("");
+        userPlayFabId = result.PlayFabId;
+        onCreateAccountSuccess?.Invoke();
     }
 
     public void OnCreateAccountError(PlayFabError error)
     {
         Debug.LogError(error);
     }
+
+    public void SetUserAvatar()
+    {
+        UpdateAvatarUrlRequest request = new UpdateAvatarUrlRequest
+        {
+            ImageUrl = Ca_AvatarUrl.text,
+        };
+
+        PlayFabClientAPI.UpdateAvatarUrl(request, OnUserAvatarRequestSuccess,OnCreateAccountError);
+    }
+
+    public void OnUserAvatarRequestSuccess(EmptyResponse emptyResponse)
+    {
+        Debug.Log("Avatar asignado");
+        SetPPFCanvas(Ca_AvatarUrl.text);
+    }
+
+    public void GetPLayerProfile()
+    {
+        GetPlayerProfileRequest request = new GetPlayerProfileRequest
+        {
+            PlayFabId = userPlayFabId,
+        };
+
+        PlayFabClientAPI.GetPlayerProfile(request, OnAvatarSuccess, OnCreateAccountError);
+    }
+
+    private void OnAvatarSuccess(GetPlayerProfileResult result)
+    {
+        playerDisplayName.text = result.PlayerProfile.DisplayName;
+        SetPPFCanvas(result.PlayerProfile.AvatarUrl);
+    }
+
 
     public void LogInAccount()
     {
@@ -82,10 +130,45 @@ public class Managers : MonoBehaviour
     public void OnLogInSuccess(LoginResult result)
     {
         Debug.Log("Inicio de sesion exitoso");
+        userPlayFabId = result.PlayFabId;
     }
 
     public void OnLoginError(PlayFabError error)
     {
         Debug.Log(error);
     }
+
+
+
+
+    [ContextMenu("UpdateScore")]
+    private void UpdateScore(int score)
+    {
+        UpdatePlayerStatisticsRequest request = new UpdatePlayerStatisticsRequest
+        {
+            Statistics = new List<StatisticUpdate>()
+            {
+                new StatisticUpdate
+                {
+                    StatisticName = "SCORE",
+                    Value = score,
+                }
+            }
+        };
+
+        PlayFabClientAPI.UpdatePlayerStatistics(request, OnPlayerStatsUpdate, OnLoginError);
+    }
+
+   public void OnPlayerStatsUpdate(UpdatePlayerStatisticsResult result)
+    {
+        Debug.Log("Score Actualizado Correctamente");
+    }
+
+
+    public void SetPPFCanvas(string url)
+    {
+
+    }
+
+
 }
