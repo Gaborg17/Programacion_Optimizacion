@@ -5,6 +5,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using UnityEngine.Networking;
+using System.Collections;
 
 public class Managers : MonoBehaviour
 //PlayFab Manager
@@ -12,6 +14,8 @@ public class Managers : MonoBehaviour
     [Header("Login")]
     [SerializeField] private TMP_InputField LoginEmail;
     [SerializeField] private TMP_InputField loginPassword;
+    [SerializeField] private UnityEvent onLoginSuccess;
+
 
     [Header("Create Account")]
     [SerializeField] private TMP_InputField Ca_Username;
@@ -103,6 +107,11 @@ public class Managers : MonoBehaviour
         GetPlayerProfileRequest request = new GetPlayerProfileRequest
         {
             PlayFabId = userPlayFabId,
+            ProfileConstraints = new PlayerProfileViewConstraints
+            {
+                ShowAvatarUrl = true,
+                ShowDisplayName = true,
+            }
         };
 
         PlayFabClientAPI.GetPlayerProfile(request, OnAvatarSuccess, OnCreateAccountError);
@@ -111,6 +120,7 @@ public class Managers : MonoBehaviour
     private void OnAvatarSuccess(GetPlayerProfileResult result)
     {
         playerDisplayName.text = result.PlayerProfile.DisplayName;
+        Debug.Log(result);
         SetPPFCanvas(result.PlayerProfile.AvatarUrl);
     }
 
@@ -131,6 +141,7 @@ public class Managers : MonoBehaviour
     {
         Debug.Log("Inicio de sesion exitoso");
         userPlayFabId = result.PlayFabId;
+        onLoginSuccess?.Invoke();
     }
 
     public void OnLoginError(PlayFabError error)
@@ -141,8 +152,10 @@ public class Managers : MonoBehaviour
 
 
 
+    public int score;
     [ContextMenu("UpdateScore")]
-    private void UpdateScore(int score)
+
+    public void UpdateScore()
     {
         UpdatePlayerStatisticsRequest request = new UpdatePlayerStatisticsRequest
         {
@@ -159,6 +172,24 @@ public class Managers : MonoBehaviour
         PlayFabClientAPI.UpdatePlayerStatistics(request, OnPlayerStatsUpdate, OnLoginError);
     }
 
+
+    public void GetLeaderBoard()
+    {
+        GetLeaderboardRequest request = new GetLeaderboardRequest
+        {
+            StatisticName = "SCORE",
+            MaxResultsCount = 10
+        };
+        PlayFabClientAPI.GetLeaderboard(request, OnGetLeaderBoardSuccess, OnCreateAccountError);
+
+    }
+
+    public void OnGetLeaderBoardSuccess(GetLeaderboardResult rersult)
+    {
+
+    }
+
+
    public void OnPlayerStatsUpdate(UpdatePlayerStatisticsResult result)
     {
         Debug.Log("Score Actualizado Correctamente");
@@ -167,7 +198,26 @@ public class Managers : MonoBehaviour
 
     public void SetPPFCanvas(string url)
     {
+        Debug.Log($"Set PPFCanvas ({url})");
+        StartCoroutine(DownloadImage(url));
+        
+    }
 
+    public IEnumerator DownloadImage(string url)
+    {
+        UnityWebRequest request = UnityWebRequestTexture.GetTexture(url);
+
+        yield return request.SendWebRequest();
+        if (request.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError(request.error);
+        }
+        else
+        {
+            Texture2D t = DownloadHandlerTexture.GetContent(request);
+            Sprite s = Sprite.Create(t, new Rect(0, 0, t.width, t.height), Vector2.zero, 1f);
+            ppf.sprite = s;
+        }
     }
 
 
